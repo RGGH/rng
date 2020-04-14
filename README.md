@@ -14,7 +14,7 @@ The format needs to be
 
 api_key = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" 
 
-where the xxxx is YOUR YouTube API key that you get from them....
+where the xxxx is YOUR YouTube API key that you get from them...
 It needs to be in quotes too, as it is a string in Python.
 
 To run, just type the following from your terminal shell:
