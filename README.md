@@ -17,7 +17,7 @@ api_key = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 where the xxxx is YOUR YouTube API key that you get from them....
 It needs to be in quotes too, as it is a string in Python.
 
-To run, just type the folling from your terminal shell:
+To run, just type the following from your terminal shell:
 
 <b>python3 ytapithumbget.py<b>
   
