@@ -1,6 +1,7 @@
-# rng
-<b><p>![Red And Green Code](https://redandgreen.co.uk/wp-content/uploads/2020/04/youtube-download-videos.png)
-</p></b>
+# Red And Green - YouTube API download / upload repo
+
+<b><p><center>![Red And Green Code](https://redandgreen.co.uk/wp-content/uploads/2020/04/youtube-download-videos.png)
+</center></p></b>
 <b>YouTube Channel Video, Description, and Thumbnail Downloader : (Linux Version)</b>
 <b>ytapithumbget.py</b>
 
@@ -16,7 +17,7 @@ api_key = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 where the xxxx is YOUR YouTube API key that you get from them....
 It needs to be in quotes too, as it is a string in Python.
 
-To run, just type the folling from your terminal shell:
+To run, just type the following from your terminal shell:
 
 <b>python3 ytapithumbget.py<b>
   
