@@ -1,6 +1,6 @@
 # Red And Green - YouTube API download / upload repo
 
-<b><p><center>![Red And Green Code](https://redandgreen.co.uk/wp-content/uploads/2020/04/youtube-download-videos.png)
+<b><p><center>![Red And Green Code](https://github.com/RGGH/rng/blob/master/redandgreenlogo.png)
 </center></p></b>
 <b>YouTube Channel Video, Description, and Thumbnail Downloader : (Linux Version)</b>
 <b>ytapithumbget.py</b>
