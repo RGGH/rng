@@ -1,7 +1,7 @@
 # rng
 
-<center><b><p>![Red And Green Code](https://redandgreen.co.uk/wp-content/uploads/2020/04/youtube-download-videos.png)
-</p></b></center>
+<b><p><center>![Red And Green Code](https://redandgreen.co.uk/wp-content/uploads/2020/04/youtube-download-videos.png)
+</center></p></b>
 <b>YouTube Channel Video, Description, and Thumbnail Downloader : (Linux Version)</b>
 <b>ytapithumbget.py</b>
 
