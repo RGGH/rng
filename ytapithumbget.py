@@ -99,6 +99,19 @@ class Ytg(object):
         return self.videos
 
 
+    def save_desc_txt(self):
+
+        for idx, video in enumerate(self.videos):
+
+                    tit = (video['snippet']['title'])
+                    des = (video['snippet']['description'])
+                    res = (video['snippet']['resourceId']['videoId']) 
+                    
+                    d = {tit : des}
+                    with open(self.full_path + res +".json", 'w') as json_file:
+                        json.dump(d, json_file)
+
+
     def save_desc(self):
         """ Offer choice to save the Descriptions """
         desc_dic = {}
@@ -121,6 +134,9 @@ class Ytg(object):
     
             with open(self.full_path + "_desc.json", 'w') as json_file:
                 json.dump(desc_dic, json_file)
+
+        self.save_desc_txt()
+
 
                 
     def save_videos(self):
