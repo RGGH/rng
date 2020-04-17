@@ -28,4 +28,9 @@ You can find the correct file for this in the folder that you made when you ran 
 
 Watch the video guide to set up the API and run the code on our 'RedAndGreen YouTube channel' : https://www.youtube.com/watch?v=8h17wxgqNXY
 
+Also check out : 
+
+<b><p><center>![Red And Green Code](https://github.com/RGGH/rng/blob/master/redandgreenlogo.png)
+</center></p></b>
+
 Any issues contact me via the contact page at www.redandgreen.co.uk
