@@ -1,20 +1,24 @@
+import codecs
 import os
 import sys
 from fpdf import FPDF
 from tqdm import tqdm
 import json
+import unicodedata
+import time
 
 class PdfMaker(object):
 
                 def __init__(self):
                     self.tx = "Blaaaaaaaaaah"
                     self.insertimage = ""
-                    self.pdfname = "OP.pdf"
+                    self.pdfname = "output.pdf"
                     self.spath = "youtube_downloads"
                     self.djpg = {}
                     self.jsonf = {}
                     self.fd = ""
                     self.mdic = {}
+
 
                 def list_dir(self): 
                     """ List directories inside youtube downloads for user to chosoe from"""
@@ -37,34 +41,39 @@ class PdfMaker(object):
 
 
                 def make_pdf(self):
+
+                    
+                 
+                    
                     with open (self.fd + "/" + "_desc.json", "r") as js:
                         self.mdic = json.load(js)
-                        #print (self.mdic)
 
-                        pdf = FPDF()
-                        
-                        for k,v in self.mdic.items():
-                            print(f"Video Title = ",v[1][1])
-                            print(f"Video ID = ",v[0][1])
-                            print(f"Video Description = ",v[2][1])
-                            vtit = (v[1][1])
-                            vid= (v[0][1])
-                            vdes = (v[2][1])
-                            
-                            pdf.add_page()
-                            pdf.image('logo.png', 10, 8, 33)
-                            image_path = self.fd +"/" + vid + ".jpg"
-                            pdf.image(image_path,x=10, y=30, w=190)
-                            pdf.set_font("Arial", size=12)
-                            pdf.cell(190, 10, txt="{}".format(vtit), ln=1, align="C")
-                            pdf.ln(185)
-                            #pdf.cell(200, 10, txt="{}".format(image_path), ln=1)
-                            #pdf.cell(180, 10, txt="{}".format(vdes), ln=4, align="L")
-                            pdf.multi_cell(w=0, h=5, txt=vdes)
-                            #response.headers['Content-Type'] = 'application/pdf'
-                        pdf.output(self.pdfname)
+                    pdf = FPDF()
 
-                        print("All done, please check root folder for OP.pdf")
+                    for k,v in self.mdic.items():
+
+                        vtit = (v[1][1])
+                        vid= (v[0][1])
+                        vdes = (v[2][1])
+                        print(vtit)
+                        pdf.add_page()
+                        pdf.image('logo.png', 10, 8, 33,0,'', 'http://www.redandgreen.co.uk')
+                        image_path = (self.fd +"/" + vid + ".jpg")
+                        pdf.image(image_path,10, 30, 190,0,'', "http://www.youtube.com/watch?v="+ vid)
+                        pdf.add_font('DejaVu', '', 'DejaVuSansCondensed.ttf', uni=True)
+                        pdf.set_font('DejaVu', '', 14)
+             
+                        pdf.cell(180, 15, txt="http://www.youtube.com/watch?v="+ vid, ln=1, align="L")
+                        pdf.cell(30, txt="{}".format(vtit), ln=1, align="L")
+                        pdf.ln(165)
+                        pdf.multi_cell(w=0, h=4, txt=vdes)
+
+                    for i in tqdm(range(20)):
+                        pdf.output(self.pdfname, 'F')
+                        time.sleep(0.5)
+
+
+                    print("All done, please check root folder for output.pdf")
 
 if __name__ == '__main__':
 

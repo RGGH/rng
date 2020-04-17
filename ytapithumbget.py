@@ -15,7 +15,7 @@ from pytube import YouTube
 from apiclient.discovery import build
 from google.auth.transport.requests import Request
 
-channel_id = "UCv_liC5hA3VwwHBxNwa35ug"
+channel_id = "UCuR4hQTXkG_KxozLxwPzEjQ"
 api_key = apikey.api_key
 youtube = build('youtube', 'v3', developerKey=api_key)
 additional_text = ""
@@ -98,20 +98,6 @@ class Ytg(object):
             
         return self.videos
 
-
-    def save_desc_txt(self):
-
-        for idx, video in enumerate(self.videos):
-
-                    tit = (video['snippet']['title'])
-                    des = (video['snippet']['description'])
-                    res = (video['snippet']['resourceId']['videoId']) 
-                    
-                    d = {tit : des}
-                    with open(self.full_path + res +".json", 'w') as json_file:
-                        json.dump(d, json_file)
-
-
     def save_desc(self):
         """ Offer choice to save the Descriptions """
         desc_dic = {}
@@ -133,9 +119,9 @@ class Ytg(object):
                     pass
     
             with open(self.full_path + "_desc.json", 'w') as json_file:
-                json.dump(desc_dic, json_file)
+                json.dump(desc_dic,json_file)
 
-        self.save_desc_txt()
+        ##self.save_desc_txt()
 
 
                 
