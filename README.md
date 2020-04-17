@@ -1,7 +1,9 @@
+<a href="https://github.com/RGGH/rng/blob/master/pdf_demo.py">
+  <img src="youtube-download-videos.png" alt="YouTube Video Download to mp4 + descriptions + thumbnails" style="">
+</a> 
+
 # Red And Green - YouTube API download / upload repo
 
-<b><p><center>![Red And Green Code](https://github.com/RGGH/rng/blob/master/youtube-download-videos.png)
-</center></p></b>
 <b>YouTube Channel Video, Description, and Thumbnail Downloader : (Linux Version)</b>
 <b>ytapithumbget.py</b>
 
