@@ -28,7 +28,7 @@ You can find the correct file for this in the folder that you made when you ran 
 
 Watch the video guide to set up the API and run the code on our 'RedAndGreen YouTube channel' : https://www.youtube.com/watch?v=8h17wxgqNXY
 
-Also check out : 
+Also check out  	https://github.com/RGGH/rng/blob/masterpdf_demo.py : 
 
 <b><p><center>![Red And Green Code](Banner_1.png)
 </center></p></b>
