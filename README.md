@@ -31,6 +31,10 @@ Watch the video guide to set up the API and run the code on our 'RedAndGreen You
 Also check out our new code to make a multipage PDF from every YouTube video thumbnail and description:  	
 https://github.com/RGGH/rng/blob/master/pdf_demo.py : 
 
+<a href="https://github.com/RGGH/rng/blob/master/pdf_demo.py">
+  <img src="Banner_1.png" alt="YouTube PDF maker" style="">
+</a> 
+
 <b><p><center>![Red And Green Code](Banner_1.png)
 </center></p></b>
 
