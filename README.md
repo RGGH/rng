@@ -35,7 +35,4 @@ https://github.com/RGGH/rng/blob/master/pdf_demo.py :
   <img src="Banner_1.png" alt="YouTube PDF maker" style="">
 </a> 
 
-<b><p><center>![Red And Green Code](Banner_1.png)
-</center></p></b>
-
 Any issues contact me via the contact page at www.redandgreen.co.uk
