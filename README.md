@@ -30,7 +30,7 @@ Watch the video guide to set up the API and run the code on our 'RedAndGreen You
 
 Also check out : 
 
-<b><p><center>![Red And Green Code](https://github.com/RGGH/rng/blob/master/redandgreenlogo.png)
+<b><p><center>![Red And Green Code](Banner_1.png)
 </center></p></b>
 
 Any issues contact me via the contact page at www.redandgreen.co.uk
