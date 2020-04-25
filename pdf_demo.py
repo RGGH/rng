@@ -65,8 +65,8 @@ class PdfMaker(object):
              
                         pdf.cell(180, 15, txt="http://www.youtube.com/watch?v="+ vid, ln=1, align="L")
                         pdf.cell(30, txt="{}".format(vtit), ln=1, align="L")
-                        pdf.ln(165)
-                        pdf.multi_cell(w=0, h=4, txt=vdes)
+                        pdf.ln(165) # comment out if error
+                        pdf.multi_cell(w=0, h=4, txt=vdes) # comment out if error
 
                     for i in tqdm(range(20)):
                         pdf.output(self.pdfname, 'F')
