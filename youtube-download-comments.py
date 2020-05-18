@@ -95,8 +95,14 @@ class Ycom(object):
     def request_comments(self):
 
         # Add code here to read desc.json, get videoID and iterate through
-        # responses and parse EACH response 
-        
+        # responses and parse EACH response
+        with open("desc.json", 'r') as json_file:
+            video_data =json.load(json_file)
+            pprint(video_data)
+
+        for k,v in video_data.items():
+            video_id=(v[0][1])
+
         print("request_comments")
         request = self.youtube.commentThreads().list(
             part="snippet,replies",
