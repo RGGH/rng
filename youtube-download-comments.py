@@ -93,25 +93,28 @@ class Ycom(object):
             json.dump(desc_dic,json_file)
 
     def request_comments(self):
-
+        ls = []
         # Add code here to read desc.json, get videoID and iterate through
         # responses and parse EACH response
         with open("desc.json", 'r') as json_file:
             video_data =json.load(json_file)
-            pprint(video_data)
+            #pprint(video_data)
 
         for k,v in video_data.items():
-            video_id=(v[0][1])
+            myvideo_id=(v[0][1])
 
-        print("request_comments")
-        request = self.youtube.commentThreads().list(
-            part="snippet,replies",
-            videoId="iSpWITmPoVI"
-        )
-        response = request.execute()
-        self.response =  response
-        return self.response
+        #for video in video_id:
 
+            #print("request_comments")
+            request = self.youtube.commentThreads().list(
+                part="snippet,replies",
+                videoId=myvideo_id
+            )
+            response = request.execute()
+            pprint(response)
+            self.response =  response
+            return self.response
+            self.parse()
 
 
 # Parse the res from the API request
@@ -182,4 +185,4 @@ if __name__ == "__main__":
     Y.get_channel_videos()
     Y.save_desc()
     Y.request_comments()
-    Y.parse()
+    #Y.parse()
