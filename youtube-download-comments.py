@@ -1,8 +1,11 @@
-# Extract comments youtube.comments.list per video if comemnts are enabled
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+# Extract comments youtube.comments.list per video
 # Run with API Key in separate file
 # Source from :
 # https://developers.google.com/explorer-help/guides/code_samples#python
 # redandgreen.co.uk
+
 ''' Check GitHub for additions https://github.com/RGGH/rng'''
 
 import os
@@ -19,6 +22,7 @@ def banner():
 
 class Ycom(object):
     def __init__(self):
+        self.video_id = ""
         self.ytcom = ""
         self.ytpubat = ""
         self.ytauth = ""
@@ -42,8 +46,6 @@ class Ycom(object):
 
         self.youtube = googleapiclient.discovery.build(
             api_service_name, api_version, developerKey = DEVELOPER_KEY)
-        print(self.youtube)
-        #return self.youtube
 
 
     def get_channel_videos(self):
@@ -51,16 +53,19 @@ class Ycom(object):
         print("get_channel_videos")
         self.res = self.youtube.channels().list(id=self.channel_id,
             part='contentDetails').execute()
-        #print(self.res)
 
-        playlist_id = self.res['items'][0]['contentDetails']['relatedPlaylists']['uploads']
-        #print("Playlist ID=", playlist_id)
+        playlist_id = self.res['items'][0]['contentDetails'] \
+            ['relatedPlaylists']['uploads']
 
         next_page_token = None
 
         while True:
-            self.res = self.youtube.playlistItems().list(playlistId=playlist_id, part='snippet', maxResults=50, pageToken=next_page_token).execute()
-            #print(self.res)
+            self.res = self.youtube.playlistItems().list(
+                playlistId=playlist_id,
+                part='snippet',
+                maxResults=50,
+                pageToken=next_page_token).execute()
+
             self.videos += self.res['items']
 
             next_page_token = self.res.get('nextPageToken')
@@ -68,18 +73,14 @@ class Ycom(object):
             if next_page_token is None:
                 break
 
-        #print("VIDEOS=",self.videos)
-        return self.videos
-
-
     def save_desc(self):
         ''' Offer choice to save the acutal **VIDEO Descriptions** '''
         desc_dic = {}
         for idx, video in enumerate(self.videos):
             try:
-                print(video['snippet']['title'])
-                print(video['snippet']['description'])
-                print(video['snippet']['resourceId']['videoId'])
+                #print(video['snippet']['title'])
+                #print(video['snippet']['description'])
+                print(idx+1, video['snippet']['resourceId']['videoId'])
 
                 d_items = ([("id", video['snippet']['resourceId']['videoId']),
                             ("title", video['snippet']['title']),
@@ -89,8 +90,9 @@ class Ycom(object):
             except:
                 pass
 
+        #pprint(desc_dic)
         with open("desc.json", 'w') as json_file:
-            json.dump(desc_dic,json_file)
+            json.dump(desc_dic,json_file,indent=4)
 
     def request_comments(self):
         ls = []
@@ -98,37 +100,37 @@ class Ycom(object):
         # responses and parse EACH response
         with open("desc.json", 'r') as json_file:
             video_data =json.load(json_file)
-            #pprint(video_data)
 
         for k,v in video_data.items():
-            myvideo_id=(v[0][1])
 
-        #for video in video_id:
+            self.video_id = (v[0][1])
+            #self.video_id = myvideo_id
+            try:
+                request = self.youtube.commentThreads().list(
+                    part="snippet,replies",
+                    videoId = self.video_id
+                )
+                response = request.execute()
+                self.response =  response
+                #return self.response
+                self.parse()
+                #print("Parsed")
+            except:
+                print("Comments Were Disabled for this Video ", self.video_id)
+                pass
 
-            #print("request_comments")
-            request = self.youtube.commentThreads().list(
-                part="snippet,replies",
-                videoId=myvideo_id
-            )
-            response = request.execute()
-            pprint(response)
-            self.response =  response
-            return self.response
-            self.parse()
-
-
-# Parse the res from the API request
+# Parse the res from the API request - call from 'request_comments'
     def parse(self):
         print("function PARSE OK")
         content = {}
         full_content = []
         res = self.response
 
-        print(res)
+        #pprint(res)
 
         # Get the number keys and number of ACTUAL comments (exc replies)
         for key in res.keys():
-            print (key)
+            #print (key)
             ncoms =(res['pageInfo']['totalResults'])
             #print(ncoms)
 
@@ -153,6 +155,7 @@ class Ycom(object):
             #
             with open('comments.csv','a') as csvfile:
                 headers = [
+                    'video_id',
                     'comment',
                     'publishedAt',
                     'authorDisplayName',
@@ -165,15 +168,18 @@ class Ycom(object):
 
                 if not file_exists:
                    writer.writeheader()
+                try:
+                    writer.writerow({
+                        'video_id' : self.video_id,
+                        'comment': content['comment'],
+                        'publishedAt': content['publishedAt'],
+                        'authorDisplayName': content['authorDisplayName'],
+                        'likeCount': content['likeCount']
+                        })
+                except:
+                    pass
 
-                writer.writerow({
-                    'comment': content['comment'],
-                    'publishedAt': content['publishedAt'],
-                    'authorDisplayName': content['authorDisplayName'],
-                    'likeCount': content['likeCount']
-                    })
-
-        return
+        #return
 
 
 # main driver
@@ -183,6 +189,7 @@ if __name__ == "__main__":
     Y = Ycom()
     Y.make_youtube()
     Y.get_channel_videos()
+
     Y.save_desc()
+
     Y.request_comments()
-    #Y.parse()
