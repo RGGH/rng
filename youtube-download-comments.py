@@ -1,4 +1,4 @@
-# Extract comments youtube.comments.list per video
+# Extract comments youtube.comments.list per video if comemnts are enabled
 # Run with API Key in separate file
 # Source from :
 # https://developers.google.com/explorer-help/guides/code_samples#python
