@@ -24,10 +24,12 @@ class Ycom(object):
     def __init__(self):
         self.video_id = ""
         self.ytcom = ""
+        self.ytcomdisab = ""
         self.ytpubat = ""
         self.ytauth = ""
         self.ytlike = ""
         self.data = {}
+        self.youtube = ""
         #playlist specific
         self.videos = []
         self.channel_id = "UCKyhocQPsAFKEY5REfVoseQ"
@@ -73,6 +75,23 @@ class Ycom(object):
             if next_page_token is None:
                 break
 
+    # Get the Video rating for each video in channel
+    def get_rating(self):
+        request = self.youtube.videos().list(
+        part="id,  statistics",
+        id="hXW895j59E8"
+        )
+        response = request.execute()
+
+        dx = response
+        print("Comment Count = ", dx['items'][0]['statistics']['commentCount'])
+        print("Dislike Count = ", dx['items'][0]['statistics']['dislikeCount'])
+        print("Favourite Count = ", dx['items'][0]['statistics']['favoriteCount'])
+        print("Like Count = ",  dx['items'][0]['statistics']['likeCount'])
+        print("Views Count = ", dx['items'][0]['statistics']['viewCount'])
+    #
+
+
     def save_desc(self):
         ''' Offer choice to save the acutal **VIDEO Descriptions** '''
         desc_dic = {}
@@ -116,7 +135,9 @@ class Ycom(object):
                 self.parse()
                 #print("Parsed")
             except:
-                print("Comments Were Disabled for this Video ", self.video_id)
+                self.ytcomdisab =(
+                    self.video_id, "Comments Were Disabled for this Video "
+                )
                 pass
 
 # Parse the res from the API request - call from 'request_comments'
@@ -177,8 +198,11 @@ class Ycom(object):
                         'likeCount': content['likeCount']
                         })
                 except:
+                    #writer.writerow({
+                        #'video_id' : self.video_id,
+                        #'comment': self.ytcomdisab
+                        #})
                     pass
-
         #return
 
 
@@ -189,7 +213,6 @@ if __name__ == "__main__":
     Y = Ycom()
     Y.make_youtube()
     Y.get_channel_videos()
-
+    Y.get_rating()
     Y.save_desc()
-
     Y.request_comments()
