@@ -1,11 +1,11 @@
 #!/usr/bin/python
 # coding: utf-8
 # Extract comments youtube.comments.list per video
-# Run with API Key in separate file called API_Key.py 
-# example : https://github.com/RGGH/rng/blob/master/API_Key.py
+# Run with API Key in separate file
 # Source from :
 # https://developers.google.com/explorer-help/guides/code_samples#python
 # redandgreen.co.uk
+
 ''' Check GitHub for additions https://github.com/RGGH/rng'''
 
 import os
