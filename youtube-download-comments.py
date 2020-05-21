@@ -23,9 +23,10 @@ def banner():
 class Ycom(object):
     def __init__(self):
         self.title = ""
-        self.description =""
+        self.description = ""
+        self.published_at = ""# video
         self.rpcom = ""
-        self.rppubat =""
+        self.rppubat = "" # comment
         self.rpauth = ""
         self.rplike = ""
         self.tcomment_count = ""
@@ -33,13 +34,12 @@ class Ycom(object):
         self.tfavorite_count = ""
         self.tlike_count = ""
         self.tview_count = ""
-
+        # ----------------------------------------
         self.videos = []
-        self.channel_id = "UCKyhocQPsAFKEY5REfVoseQ"
-
+        self.channel_id = "UCk3RUi5cbclxuGTMOPwrNpg"
+        self.subscribe_count = ""
+        # ------------------------------------------
         self.response=""
-
-
 
     def make_youtube(self):
         print("function make_youtube_object")
@@ -54,12 +54,23 @@ class Ycom(object):
         self.youtube = googleapiclient.discovery.build(
             api_service_name, api_version, developerKey = DEVELOPER_KEY)
 
+    def get_subscriber_count(self):
+        # Get subscriber Count
+        self.sub = self.youtube.channels().list(id=self.channel_id,
+            part='statistics').execute()
 
+        self.subscribe_count = (self.sub['items'][0]['statistics']['subscriberCount'])
+        print("Subscribers=",self.subscribe_count )
+
+    # CHANNEL Info
     def get_channel_videos(self):
+
         """Get uploads playlist id"""
-        print("get_channel_videos")
+        #("get_channel_videos")
         self.res = self.youtube.channels().list(id=self.channel_id,
             part='contentDetails').execute()
+
+        #pprint(self.res)
 
         playlist_id = self.res['items'][0]['contentDetails'] \
             ['relatedPlaylists']['uploads']
@@ -69,8 +80,8 @@ class Ycom(object):
         while True:
             self.res = self.youtube.playlistItems().list(
                 playlistId=playlist_id,
-                part='snippet',
-                maxResults=50,
+                part="snippet",
+                maxResults=100,
                 pageToken=next_page_token).execute()
 
             self.videos += self.res['items']
@@ -80,25 +91,27 @@ class Ycom(object):
             if next_page_token is None:
                 break
 
-    # Get the Video rating for each video in channel
+    # Comments Info
+    # Get the ratings per VIDEO in channel
     def get_ratings(self, video_id):
+        # Firstly, get the comment count and view count
         request = self.youtube.videos().list(
-        part="id,  statistics",
+        part="id, snippet, statistics",
         id=video_id
         )
         response = request.execute()
-
         dx = response
+        pprint(dx)
         tp = dx['items'][0]['statistics']
 
-        self.tcomment_count = tp['commentCount']
-        self.tdislike_count = tp['dislikeCount']
-        self.tfavorite_count = tp['favoriteCount']
-        self.tlike_count = tp['likeCount']
-        self.tview_count = tp['viewCount']
+        self.tcomment_count = tp.get('commentCount')
+        self.tview_count = tp.get('viewCount')
+        self.tdislike_count = tp.get('dislikeCount')
+        self.tfavorite_count = tp.get('favoriteCount')
+        self.tlike_count = tp.get('likeCount')
         return
 
-
+    # Save indvidual VIDEO details to JSON
     def save_desc(self):
         ''' Offer choice to save the acutal **VIDEO Descriptions** '''
         desc_dic = {}
@@ -107,10 +120,14 @@ class Ycom(object):
                 print(idx+1, video['snippet']['resourceId']['videoId'])
                 self.title = video['snippet']['title']
                 self.description = video['snippet']['description']
+                self.published_at = video['snippet']['publishedAt']
 
+                # Add video published date
                 d_items = ([("id", video['snippet']['resourceId']['videoId']),
                             ("title", video['snippet']['title']),
-                            ("description",video['snippet']['description'])])
+                            ("description",video['snippet']['description']),
+                            ("published_at",video['snippet']['publishedAt']),
+                            ])
 
                 desc_dic[idx] = (d_items)
             except:
@@ -132,9 +149,10 @@ class Ycom(object):
             self.video_id = (v[0][1])
             self.title = (v[1][1])
             self.description = (v[2][1])
+            self.published_at = (v[3][1])
+
             # Get ratings stats ready for CSV
             ratings = self.get_ratings(self.video_id)
-            #print ("CC=",self.tcomment_count)
 
             try:
                 request = self.youtube.commentThreads().list(
@@ -145,25 +163,31 @@ class Ycom(object):
                 self.response =  res
                 #return self.response
 
-                #print("Parsed")
+                print("Parsed")
 
-                # print(res)
-                # for key in res.keys():
-                #     ncoms =(res['pageInfo']['totalResults'])
-                #
-                # for i in range(0,ncoms):
-                #     #
-                #     self.rpcom = (res['items'][i]['snippet']['topLevelComment']
-                #         ['snippet']['textOriginal'])
-                #     self.rppubat = (res['items'][i]['snippet']['topLevelComment']
-                #         ['snippet']['publishedAt'])
-                #     self.rpauth = (res['items'][i]['snippet']['topLevelComment']
-                #         ['snippet']['authorDisplayName'])
-                #     self.rplike = (res['items'][i]['snippet']['topLevelComment']
-                #         ['snippet']['likeCount'])
+                #print(res)
+                for key in res.keys():
+                    ncoms =(res['pageInfo']['totalResults'])
+
+                for i in range(0,ncoms):
+                    #
+                    self.rpcom = (res['items'][i]['snippet']['topLevelComment']
+                        ['snippet']['textOriginal'])
+                    self.rppubat = (res['items'][i]['snippet']['topLevelComment']
+                        ['snippet']['publishedAt'])
+                    self.rpauth = (res['items'][i]['snippet']['topLevelComment']
+                        ['snippet']['authorDisplayName'])
+                    self.rplike = (res['items'][i]['snippet']['topLevelComment']
+                        ['snippet']['likeCount'])
 
                 self.make_csv()
                 print("Adding to csv...",self.video_id)
+                print(
+                    self.tcomment_count,
+                    "\t",self.tdislike_count,
+                    "\t",self.tfavorite_count,
+                    "\t",self.tlike_count,
+                    "\t",self.tview_count)
             except:
                 print("No comments Available - Write minimum to csv",self.video_id)
                 self.make_csv()
@@ -180,14 +204,15 @@ class Ycom(object):
                 'title',
                 'description',
                 'comment',
-                'published_at',
+                'published_at', # CHANGED TO VIDEO
                 'author_display_name',
                 'comment_like_count',
                 'comment_count',
                 'video_dislike_count',
                 'video_favourite_count',
                 'video_like_count',
-                'video_view_count'
+                'video_view_count',
+                'channel_subscriber_count',
                 ]
             writer = csv.DictWriter(csvfile, delimiter=',',
                 lineterminator='\n',
@@ -201,23 +226,27 @@ class Ycom(object):
                 writer.writerow({
                     'video_id' : self.video_id,
                     'title': self.title,
-                    'description':self.description,
-                    'comment': self.rpcom,
-                    'published_at': self.rppubat,
+                    'description': self.description,
+                    'comment': '', #self.rpcom,
+                    'published_at': self.published_at, # CHANGED TO VIDEO
                     'author_display_name': self.rpauth,
                     'comment_like_count': self.rplike,
-                    'comment_count':self.tcomment_count,
-                    'video_dislike_count':self.tdislike_count,
-                    'video_favourite_count':self.tfavorite_count,
+                    'comment_count': self.tcomment_count,
+                    'video_dislike_count': self.tdislike_count,
+                    'video_favourite_count': self.tfavorite_count,
                     'video_like_count': self.tlike_count,
-                    'video_view_count':self.tview_count
+                    'video_view_count': self.tview_count,
+                    'channel_subscriber_count': self.subscribe_count,
                     })
             except:
                 #print("Something went wrong when parsing ",self.video_id)
                 writer.writerow({
                     'video_id' : self.video_id,
                     'title': self.title,
-                    'description':self.description
+                    'description': self.description,
+                    'comment': 'comments disabled',
+                    'published_at': self.published_at, # CHANGED TO VIDEO
+                    'channel_subscriber_count' : self.subscribe_count,
                     })
         return
 
@@ -227,6 +256,8 @@ if __name__ == "__main__":
     banner()
     Y = Ycom()
     Y.make_youtube()
+    Y.get_subscriber_count()
     Y.get_channel_videos()
     Y.save_desc()
     Y.request_comments()
+    print("\n\n ++++++++++++ All done, check comments.csv! ++++++++++++++")
