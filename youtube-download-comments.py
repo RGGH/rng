@@ -202,7 +202,7 @@ class Ycom(object):
                 'title',
                 'description',
                 'comment',
-                'published_at', # CHANGED TO VIDEO
+                'published_at', 
                 'author_display_name',
                 'comment_like_count',
                 'comment_count',
@@ -226,7 +226,7 @@ class Ycom(object):
                     'title': self.title,
                     'description': self.description,
                     'comment': self.rpcom,
-                    'published_at': self.published_at, # CHANGED TO VIDEO
+                    'published_at': self.published_at, 
                     'author_display_name': self.rpauth,
                     'comment_like_count': self.rplike,
                     'comment_count': self.tcomment_count,
@@ -237,13 +237,13 @@ class Ycom(object):
                     'channel_subscriber_count': self.subscribe_count,
                     })
             except:
-                #print("Something went wrong when parsing ",self.video_id)
+           
                 writer.writerow({
                     'video_id' : self.video_id,
                     'title': self.title,
                     'description': self.description,
                     'comment': 'comments disabled',
-                    'published_at': self.published_at, # CHANGED TO VIDEO
+                    'published_at': self.published_at, 
                     'channel_subscriber_count' : self.subscribe_count,
                     })
         return
