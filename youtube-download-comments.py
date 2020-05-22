@@ -36,7 +36,7 @@ class Ycom(object):
         self.tview_count = ""
         # ----------------------------------------
         self.videos = []
-        self.channel_id = "UCk3RUi5cbclxuGTMOPwrNpg"
+        self.channel_id = "UCKyhocQPsAFKEY5REfVoseQ"
         self.subscribe_count = ""
         # ------------------------------------------
         self.response=""
@@ -139,8 +139,6 @@ class Ycom(object):
 
     def request_comments(self):
 
-        # Add code here to read desc.json, get videoID and iterate through
-        # responses and parse EACH response
         with open("desc.json", 'r') as json_file:
             video_data =json.load(json_file)
 
@@ -161,11 +159,11 @@ class Ycom(object):
                 )
                 res = request.execute()
                 self.response =  res
-        
+                #return self.response
 
                 print("Parsed")
 
-    
+                #print(res)
                 for key in res.keys():
                     ncoms =(res['pageInfo']['totalResults'])
 
@@ -204,7 +202,7 @@ class Ycom(object):
                 'title',
                 'description',
                 'comment',
-                'published_at', 
+                'published_at', # CHANGED TO VIDEO
                 'author_display_name',
                 'comment_like_count',
                 'comment_count',
@@ -227,8 +225,8 @@ class Ycom(object):
                     'video_id' : self.video_id,
                     'title': self.title,
                     'description': self.description,
-                    'comment': '', #self.rpcom,
-                    'published_at': self.published_at, 
+                    'comment': self.rpcom,
+                    'published_at': self.published_at, # CHANGED TO VIDEO
                     'author_display_name': self.rpauth,
                     'comment_like_count': self.rplike,
                     'comment_count': self.tcomment_count,
@@ -245,7 +243,7 @@ class Ycom(object):
                     'title': self.title,
                     'description': self.description,
                     'comment': 'comments disabled',
-                    'published_at': self.published_at, 
+                    'published_at': self.published_at, # CHANGED TO VIDEO
                     'channel_subscriber_count' : self.subscribe_count,
                     })
         return
