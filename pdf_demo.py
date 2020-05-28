@@ -1,3 +1,5 @@
+'''Makes a PDF of a user's channel - 1 video thumbail PER page
+and description - ie 100 videos, 100 page PDF!'''
 import codecs
 import os
 import sys
