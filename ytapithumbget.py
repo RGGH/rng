@@ -1,4 +1,5 @@
-"""refer to : https://developers.google.com/youtube/v3/docs/videos#resource-representation
+""" This saves descriptions, videos, thumbnails, for any channel, and also allows you to bulk update descriptions -
+    refer to : https://developers.google.com/youtube/v3/docs/videos#resource-representation
     Use : sudo pip install --upgrade google-api-python-client
     You will need your own API key and put it into a new file called 'apikey.py'
     e.g api_key = "xxxxxxxxxxxxxxxxxxxxxx" """
