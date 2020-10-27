@@ -10,7 +10,7 @@ colorama==0.4.3
 configparser==4.0.2
 contextlib2==0.6.0.post1
 crayons==0.3.0
-cryptography==2.1.4
+cryptography==3.2
 decorator==4.4.1
 defusedxml==0.6.0
 entrypoints==0.3
