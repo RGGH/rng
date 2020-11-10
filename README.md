@@ -2,7 +2,7 @@
   <img src="youtube-download-videos.png" alt="YouTube Video Download to mp4 + descriptions + thumbnails" style="">
 </a> 
 
-# Red And Green - YouTube API download / upload repo
+# Red And Green - YouTube API download / upload
 
 <b>YouTube Channel Video, Description, and Thumbnail Downloader : (Linux Version)</b>
 <b>ytapithumbget.py</b>
